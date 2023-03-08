@@ -1,0 +1,68 @@
+{% extends 'store-manage/main.html' %}
+{% load static %}
+{% block content %}
+
+ <div class="row">
+		<div class="col-lg-6">
+			<div class="box-element" id="form-wrapper">
+				
+					
+					<div id="shipping-info">
+						<hr>
+						<p>Shipping Information:</p>
+						{% if order.customer == None %}
+						<span class="form-control">Guest</span>
+						{% else %}
+						Customer name: <span class="form-control">{{order.customer}}</span>
+						{% endif %}
+						<hr>
+						<div class="form-field">
+							Date ordered: <span class="form-control">{{order.date_ordered}}</span>
+						</div>
+						<div class="form-field">
+							Order status: <span class="form-control">{{order.status}}</span>
+						</div>
+						<div class="form-field">
+							Address<span class="form-control">{{shipping.address}}</span>
+						</div>
+						<div class="form-field">
+							City <span class="form-control">{{shipping.city}}</span>
+						</div>
+						<div class="form-field">
+							Country<span class="form-control">{{shipping.state}}</span>
+						</div>
+						<div class="form-field">
+							Phone number <span class="form-control">{{shipping.zipcode}}</span>
+						</div>
+					</div>
+
+			</div>
+		</div>
+
+		<div class="col-lg-6">
+			<div class="box-element">
+				{% if request.user.is_staff %}
+				<a href="{% url 'admin'%}" class="btn btn-outline-dark">&#x2190; Back to dashboard</a>
+				<hr>
+				{% else %}
+				<a href="{% url 'customer' request.user.customer.id %}" class="btn btn-outline-dark">&#x2190; Back to profile</a>
+				<hr>
+				{% endif %}
+
+				<h3>Order Summary</h3>
+				<hr>
+				{% for item in orderitem%}
+				<div class="cart-row">
+					<div style="flex:2"><img class="row-image" src="{{item.product.imageURL}}"></div>
+					<div style="flex:2"><p>{{item.product.name}}</p></div>
+					<div style="flex:1"><p>${{item.product.price|floatformat:2}}</p></div>
+					<div style="flex:1"><p>{{item.quantity}}</p></div>
+					<div style="flex:1">${{item.get_total|floatformat:2}}</div>
+				</div>
+				{% endfor %}
+				<h5 style=" float:right">Items:   {{order.get_cart_items}}</h5>
+				<h5>Total:   ${{order.get_cart_total|floatformat:2}}</h5>	
+			</div>
+		</div>
+	</div>
+{% endblock %}

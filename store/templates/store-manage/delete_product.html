@@ -1,0 +1,22 @@
+{% extends 'store-manage/main.html' %}
+{% load static %}
+{% block content %}
+
+<br>
+<div class="row">
+	<div class="col-md-6">
+		<div class="card-card-body">
+
+			<p>Are you sure you want to delete product <b>{{product}}</b></p>
+
+			<form method="post" action="{% url 'delete-product' product.id  %}" >
+				{% csrf_token %}
+				<input class="btn btn-danger" type="submit" name="Confirm" value="Confirm">
+				<a class="btn btn-warning"href="{% url 'admin' %}">Cancel</a>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}

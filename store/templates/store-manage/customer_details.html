@@ -1,0 +1,81 @@
+{% extends 'store-manage/main.html' %}
+{% load static %}
+{% block content %}
+
+<br>
+<div class="row">
+	<div class="col-md">
+		<div class="card card-body">
+			<h5>Customer: {{customer.user}}</h5>
+			<hr>
+			<a href="{% url 'admin'%}" class="btn btn-outline-dark">&#x2190; Back to dashboard</a>
+			<hr>
+		</div>
+	</div>
+
+	<div class="col-md">
+		<div class="card card-body">
+			<h5>Contact information:</h5>
+			<hr>
+			<p>Email: {{customer.email}}</p>
+			<p>Phone: {{customer.phone}}</p>
+		</div>
+	</div>
+
+	<div class="col-md">
+		<div class="card card-body">
+			<h5>Total orders</h5>
+			<hr>
+			<h1 style="text-align:center;padding: 10px">{{order_count}}</h1>
+		</div>
+	</div>
+</div>
+
+<br>
+<div class="row">
+	<div class="col">
+		<div class="card card-body">
+			<form method="get">
+				{{myFilter.form}}
+				
+				<button class="btn btn-primary" type="submit">Search</button>
+			</form>
+		</div>
+	</div>
+</div>
+
+<br>
+<div class="row">
+	<div class="col-md">
+		<div class="card card-body">
+			<table class="table table-sm">
+				<tr>
+					<th></th>
+					<th>Transaction id</th>
+					<th>Date ordered</th>
+					<th>Status</th>
+					<th>Update</th>
+					<th>Remove</th>
+				</tr>
+
+				{% for order in orders%}
+				<tr>
+					<td><a href="{% url 'order' order.id %}">View</a></td>
+					<td>{{order.transaction_id}}</td>
+					<td>{{order.date_ordered}}</td>
+					<td>{{order.status}}</td>
+					<td><a class="btn btn-sm btn-info "href="{% url 'update-order' order.id %}">
+						<img src="{% static 'images/edit.png'%}" style="max-width:20px" alt="update">
+					</a></td>
+					<td><a class="btn btn-sm btn-danger "href="{% url 'delete-order' order.id %}">
+						<img src="{% static 'images/delete.png'%}" style="max-width:20px" alt="update">
+					</a></td>
+				</tr>
+
+				{% endfor %}
+			</table>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
